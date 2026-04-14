@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TubeDissector — Why Your Videos Die After 48 Hours</title>
+  <meta name="description" content="AI-powered YouTube channel analysis. Find out exactly why your videos aren't growing — and what to fix first.">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --surface: #141414;
+      --border: #222;
+      --text: #e8e8e8;
+      --muted: #888;
+      --accent: #ff4444;
+      --accent-hover: #ff6666;
+      --green: #22c55e;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    .container {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    /* NAV */
+    nav {
+      padding: 20px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .logo {
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .logo span { color: var(--accent); }
+
+    /* HERO */
+    .hero {
+      padding: 80px 0 60px;
+      text-align: center;
+    }
+    .badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      padding: 6px 16px;
+      border-radius: 100px;
+      margin-bottom: 32px;
+    }
+    h1 {
+      font-size: clamp(2rem, 5vw, 3rem);
+      font-weight: 800;
+      line-height: 1.15;
+      letter-spacing: -1.5px;
+      margin-bottom: 24px;
+    }
+    h1 em {
+      font-style: normal;
+      color: var(--accent);
+    }
+    .subtitle {
+      font-size: 1.15rem;
+      color: var(--muted);
+      max-width: 520px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+
+    /* CTA */
+    .cta-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 32px;
+      margin-bottom: 16px;
+    }
+    .cta-box h3 {
+      font-size: 1rem;
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+    .cta-box h3 span {
+      color: var(--green);
+    }
+    .email-form {
+      display: flex;
+      gap: 10px;
+    }
+    .email-form input {
+      flex: 1;
+      padding: 14px 18px;
+      border-radius: 8px;
+      border: 1px solid var(--border);
+      background: var(--bg);
+      color: var(--text);
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .email-form input:focus {
+      border-color: var(--accent);
+    }
+    .email-form button {
+      padding: 14px 28px;
+      background: var(--accent);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+      white-space: nowrap;
+    }
+    .email-form button:hover {
+      background: var(--accent-hover);
+    }
+    .cta-note {
+      font-size: 0.8rem;
+      color: var(--muted);
+      text-align: center;
+      margin-top: 12px;
+    }
+
+    /* PAIN SECTION */
+    .pain {
+      padding: 60px 0;
+      border-top: 1px solid var(--border);
+    }
+    .pain h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 32px;
+      letter-spacing: -0.5px;
+    }
+    .pain-grid {
+      display: grid;
+      gap: 20px;
+    }
+    .pain-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+    }
+    .pain-card .icon {
+      font-size: 1.5rem;
+      margin-bottom: 12px;
+    }
+    .pain-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .pain-card p {
+      font-size: 0.9rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
+
+    /* WHAT YOU GET */
+    .solution {
+      padding: 60px 0;
+      border-top: 1px solid var(--border);
+    }
+    .solution h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 32px;
+      letter-spacing: -0.5px;
+    }
+    .step {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 28px;
+      align-items: flex-start;
+    }
+    .step-num {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      background: var(--accent);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 0.85rem;
+    }
+    .step-content h4 {
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .step-content p {
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+
+    /* PRICING */
+    .pricing {
+      padding: 60px 0;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .pricing h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .pricing .sub {
+      color: var(--muted);
+      margin-bottom: 36px;
+      font-size: 0.95rem;
+    }
+    .price-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      max-width: 500px;
+      margin: 0 auto;
+    }
+    .price-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 28px 20px;
+      text-align: center;
+    }
+    .price-card.featured {
+      border-color: var(--accent);
+      position: relative;
+    }
+    .price-card.featured::before {
+      content: 'BEST VALUE';
+      position: absolute;
+      top: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: white;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 3px 12px;
+      border-radius: 100px;
+      letter-spacing: 1px;
+    }
+    .price-card .tier {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .price-card .amount {
+      font-size: 2.2rem;
+      font-weight: 800;
+      margin-bottom: 4px;
+    }
+    .price-card .period {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-bottom: 16px;
+    }
+    .price-card ul {
+      list-style: none;
+      text-align: left;
+      font-size: 0.85rem;
+    }
+    .price-card ul li {
+      padding: 6px 0;
+      color: var(--muted);
+    }
+    .price-card ul li::before {
+      content: '\2713';
+      color: var(--green);
+      margin-right: 8px;
+      font-weight: 700;
+    }
+
+    /* FINAL CTA */
+    .final-cta {
+      padding: 60px 0 80px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+    .final-cta h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .final-cta p {
+      color: var(--muted);
+      margin-bottom: 28px;
+      font-size: 0.95rem;
+    }
+
+    /* SAMPLE REPORT */
+    .sample {
+      padding: 60px 0;
+      border-top: 1px solid var(--border);
+    }
+    .sample h2 {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 12px;
+      letter-spacing: -0.5px;
+    }
+    .sample .sub {
+      color: var(--muted);
+      margin-bottom: 32px;
+      font-size: 0.95rem;
+    }
+    .report-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 28px;
+      margin-bottom: 20px;
+    }
+    .report-card h4 {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .report-card table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    .report-card table td {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .report-card table td:first-child {
+      color: var(--muted);
+      width: 45%;
+    }
+    .report-card table tr:last-child td {
+      border-bottom: none;
+    }
+    .finding {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 24px;
+      margin-bottom: 16px;
+    }
+    .finding .label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--green);
+      margin-bottom: 8px;
+    }
+    .finding h4 {
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .finding p {
+      color: var(--muted);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+    .sample-note {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.85rem;
+      margin-top: 24px;
+      font-style: italic;
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 24px 0;
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      .email-form { flex-direction: column; }
+      .price-cards { grid-template-columns: 1fr; }
+      .hero { padding: 50px 0 40px; }
+    }
+
+    /* SUCCESS STATE */
+    .success-msg {
+      display: none;
+      background: var(--surface);
+      border: 1px solid var(--green);
+      border-radius: 12px;
+      padding: 32px;
+      text-align: center;
+    }
+    .success-msg h3 { color: var(--green); margin-bottom: 8px; }
+    .success-msg p { color: var(--muted); font-size: 0.9rem; }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <div class="container">
+      <div class="logo">Tube<span>Dissector</span></div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="badge">AI-Powered Channel Analysis</div>
+      <h1>Why your videos <em>die after 48 hours</em></h1>
+      <p class="subtitle">
+        It's not the algorithm. It's 3 decisions you're making before you hit publish.
+        Our AI dissects your channel and tells you exactly what to fix — ranked by impact.
+      </p>
+
+      <!-- CTA BOX -->
+      <div class="cta-box" id="cta-main">
+        <h3>Full channel dissection. <span>Delivered in 48h.</span></h3>
+        <form class="email-form" id="form-hero" onsubmit="handleSubmit(event, 'cta-main', 'success-hero')">
+          <input type="email" placeholder="your@email.com" required aria-label="Email address">
+          <button type="submit">Request Analysis &mdash; $99</button>
+        </form>
+        <p class="cta-note">We'll review your channel and send a quote within 24h. See <a href="#sample" style="color:var(--accent)">sample report</a> below.</p>
+      </div>
+      <div class="success-msg" id="success-hero">
+        <h3>Request received.</h3>
+        <p>We'll review your channel and get back to you within 24 hours.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAIN -->
+  <section class="pain">
+    <div class="container">
+      <h2>Sound familiar?</h2>
+      <div class="pain-grid">
+        <div class="pain-card">
+          <div class="icon">&#128200;</div>
+          <h4>You post consistently but views are flat</h4>
+          <p>You followed the "just be consistent" advice for months. Your effort went up. Your views didn't.</p>
+        </div>
+        <div class="pain-card">
+          <div class="icon">&#128161;</div>
+          <h4>You don't know WHAT to fix first</h4>
+          <p>Thumbnails? Titles? Hooks? Retention? SEO? Every guru says something different. You're optimizing blind.</p>
+        </div>
+        <div class="pain-card">
+          <div class="icon">&#9201;</div>
+          <h4>You're burning time on videos that don't compound</h4>
+          <p>Every video feels like starting from scratch. Nothing builds on the last one. No flywheel, just grind.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTION -->
+  <section class="solution">
+    <div class="container">
+      <h2>What you get: a full channel dissection</h2>
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-content">
+          <h4>Traction Analysis</h4>
+          <p>We map your top-performing videos vs. underperformers and find the hidden patterns — topics, formats, and posting times that actually move the needle.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-content">
+          <h4>Formula Detection</h4>
+          <p>Every successful channel runs on 2-3 repeatable formulas. We reverse-engineer yours (or find them if you don't have any yet).</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-content">
+          <h4>Retention Breakdown</h4>
+          <p>We identify exactly where viewers drop off and why. Hook strength, pacing, payoff structure — second by second.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-content">
+          <h4>Narrative Architecture</h4>
+          <p>The storytelling structure that keeps viewers watching. We compare yours against channels 10x your size in the same niche.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-content">
+          <h4>Prioritized Action Plan</h4>
+          <p>Not 50 tips. 3-5 specific changes ranked by effort vs. impact. Do these first, measure in 30 days.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing">
+    <div class="container">
+      <h2>Simple pricing. Outcome-based.</h2>
+      <p class="sub">If the analysis doesn't surface at least one insight worth 10x the price, we refund you.</p>
+      <div class="price-cards">
+        <div class="price-card">
+          <div class="tier">One-time</div>
+          <div class="amount">$99</div>
+          <div class="period">per analysis</div>
+          <ul>
+            <li>Full 5-phase dissection</li>
+            <li>Prioritized action plan</li>
+            <li>Competitor comparison (3)</li>
+            <li>PDF + video walkthrough</li>
+          </ul>
+        </div>
+        <div class="price-card featured">
+          <div class="tier">Monthly</div>
+          <div class="amount">$249</div>
+          <div class="period">per month</div>
+          <ul>
+            <li>3 analyses per month</li>
+            <li>Progress tracking</li>
+            <li>Trend alerts for your niche</li>
+            <li>Priority 24h turnaround</li>
+            <li>Cancel anytime</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAMPLE REPORT -->
+  <section class="sample" id="sample">
+    <div class="container">
+      <h2>What a real analysis looks like</h2>
+      <p class="sub">Excerpt from an actual channel dissection — a 14.2K-subscriber AI productivity channel.</p>
+
+      <div class="report-card">
+        <h4>Channel snapshot</h4>
+        <table>
+          <tr><td>Subscribers</td><td>14,200</td></tr>
+          <tr><td>Total views</td><td>1,282,489</td></tr>
+          <tr><td>Videos published</td><td>151</td></tr>
+          <tr><td>Top 5 videos share of total views</td><td>55.4% (with only 3.3% of videos)</td></tr>
+          <tr><td>Virality ratio (best vs. median)</td><td>40.6x</td></tr>
+          <tr><td>Estimated monthly revenue</td><td>$400–800/mo</td></tr>
+        </table>
+      </div>
+
+      <div class="finding">
+        <div class="label">Finding #1 — Title formula</div>
+        <h4>Videos that name specific tools + include a buying decision outperform by 12x</h4>
+        <p>"ChatGPT Plus vs. Free — is it worth $20?" (119K views) vs. "When to Use AI (And When Not To)" (under 2K views). The winning pattern: [Tool A] vs [Tool B] + price anchor + year. The losing pattern: vague, abstract, no tension.</p>
+      </div>
+
+      <div class="finding">
+        <div class="label">Finding #2 — Revenue left on the table</div>
+        <h4>$340/month in affiliate revenue sitting uncollected</h4>
+        <p>Compares $20/month tools without affiliate links. At 42K views/month with 2% CTR and 5% conversion at 20% commission — that's a second revenue stream with zero extra content.</p>
+      </div>
+
+      <div class="finding">
+        <div class="label">Finding #3 — Format mismatch</div>
+        <h4>Only mega-hit (344K views) is a Short — but Shorts are less than 5% of output</h4>
+        <p>The channel's single Short generated more views than the next 40 videos combined. Shifting 30% of output to Shorts would multiply discovery without increasing production effort.</p>
+      </div>
+
+      <p class="sample-note">Full reports include 5 phases, competitor comparison, and a prioritized action plan with 3–5 specific changes ranked by impact.</p>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <div class="container">
+      <h2>Every week without data is another week of guessing.</h2>
+      <p>See what you've been missing.</p>
+      <div class="cta-box" id="cta-bottom">
+        <form class="email-form" id="form-bottom" onsubmit="handleSubmit(event, 'cta-bottom', 'success-bottom')">
+          <input type="email" placeholder="your@email.com" required aria-label="Email address">
+          <button type="submit">Request Analysis &mdash; $99</button>
+        </form>
+      </div>
+      <div class="success-msg" id="success-bottom">
+        <h3>Request received.</h3>
+        <p>We'll review your channel and get back to you within 24 hours.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="container">
+      &copy; 2026 TubeDissector. AI-powered channel intelligence.<br>
+      Questions? <a href="mailto:hello@tubedissector.com" style="color:var(--muted)">hello@tubedissector.com</a>
+    </div>
+  </footer>
+
+  <script>
+    function handleSubmit(e, ctaId, successId) {
+      e.preventDefault();
+      const email = e.target.querySelector('input[type="email"]').value;
+      const btn = e.target.querySelector('button');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+
+      fetch('https://formspree.io/f/PLACEHOLDER', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email, source: 'tubedissector.com', date: new Date().toISOString() })
+      })
+      .then(function() {
+        document.getElementById(ctaId).style.display = 'none';
+        document.getElementById(successId).style.display = 'block';
+      })
+      .catch(function() {
+        // Fallback: open mailto
+        window.location.href = 'mailto:hello@tubedissector.com?subject=Channel Analysis Request&body=Hi, I\'d like a channel analysis. My email: ' + email;
+      });
+    }
+  </script>
+
+</body>
+</html>
