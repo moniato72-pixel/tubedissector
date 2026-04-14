@@ -402,17 +402,6 @@
       .hero { padding: 50px 0 40px; }
     }
 
-    /* SUCCESS STATE */
-    .success-msg {
-      display: none;
-      background: var(--surface);
-      border: 1px solid var(--green);
-      border-radius: 12px;
-      padding: 32px;
-      text-align: center;
-    }
-    .success-msg h3 { color: var(--green); margin-bottom: 8px; }
-    .success-msg p { color: var(--muted); font-size: 0.9rem; }
   </style>
 </head>
 <body>
@@ -437,15 +426,11 @@
       <!-- CTA BOX -->
       <div class="cta-box" id="cta-main">
         <h3>Full channel dissection. <span>Delivered in 48h.</span></h3>
-        <form class="email-form" id="form-hero" onsubmit="handleSubmit(event, 'cta-main', 'success-hero')">
-          <input type="email" placeholder="your@email.com" required aria-label="Email address">
-          <button type="submit">Request Analysis &mdash; $99</button>
-        </form>
-        <p class="cta-note">We'll review your channel and send a quote within 24h. See <a href="#sample" style="color:var(--accent)">sample report</a> below.</p>
-      </div>
-      <div class="success-msg" id="success-hero">
-        <h3>Request received.</h3>
-        <p>We'll review your channel and get back to you within 24 hours.</p>
+        <a href="mailto:hello@tubedissector.com?subject=Channel%20Analysis%20Request&body=Hi%2C%20I%27d%20like%20a%20channel%20analysis.%0A%0AMy%20channel%3A%20%5Bpaste%20your%20channel%20URL%5D" class="email-form" style="text-decoration:none;">
+          <span style="flex:1;padding:14px 18px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--muted);font-size:1rem;">hello@tubedissector.com</span>
+          <button type="button" style="padding:14px 28px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;white-space:nowrap;">Request Analysis &mdash; $99</button>
+        </a>
+        <p class="cta-note">Send us your channel URL. We'll reply within 24h. See <a href="#sample" style="color:var(--accent)">sample report</a> below.</p>
       </div>
     </div>
   </section>
@@ -534,14 +519,15 @@
           </ul>
         </div>
         <div class="price-card featured">
-          <div class="tier">Monthly</div>
+          <div class="tier">Growth</div>
           <div class="amount">$249</div>
           <div class="period">per month</div>
           <ul>
-            <li>3 analyses per month</li>
-            <li>Progress tracking</li>
-            <li>Trend alerts for your niche</li>
-            <li>Priority 24h turnaround</li>
+            <li>Initial dissection + monthly re-analysis</li>
+            <li>Before/after tracking (are changes working?)</li>
+            <li>3 competitors monitored monthly</li>
+            <li>Next-month content plan based on data</li>
+            <li>Direct email access for questions</li>
             <li>Cancel anytime</li>
           </ul>
         </div>
@@ -595,14 +581,10 @@
       <h2>Every week without data is another week of guessing.</h2>
       <p>See what you've been missing.</p>
       <div class="cta-box" id="cta-bottom">
-        <form class="email-form" id="form-bottom" onsubmit="handleSubmit(event, 'cta-bottom', 'success-bottom')">
-          <input type="email" placeholder="your@email.com" required aria-label="Email address">
-          <button type="submit">Request Analysis &mdash; $99</button>
-        </form>
-      </div>
-      <div class="success-msg" id="success-bottom">
-        <h3>Request received.</h3>
-        <p>We'll review your channel and get back to you within 24 hours.</p>
+        <a href="mailto:hello@tubedissector.com?subject=Channel%20Analysis%20Request&body=Hi%2C%20I%27d%20like%20a%20channel%20analysis.%0A%0AMy%20channel%3A%20%5Bpaste%20your%20channel%20URL%5D" class="email-form" style="text-decoration:none;">
+          <span style="flex:1;padding:14px 18px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--muted);font-size:1rem;">hello@tubedissector.com</span>
+          <button type="button" style="padding:14px 28px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;white-space:nowrap;">Request Analysis &mdash; $99</button>
+        </a>
       </div>
     </div>
   </section>
@@ -615,29 +597,6 @@
     </div>
   </footer>
 
-  <script>
-    function handleSubmit(e, ctaId, successId) {
-      e.preventDefault();
-      const email = e.target.querySelector('input[type="email"]').value;
-      const btn = e.target.querySelector('button');
-      btn.disabled = true;
-      btn.textContent = 'Sending...';
-
-      fetch('https://formspree.io/f/PLACEHOLDER', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: email, source: 'tubedissector.com', date: new Date().toISOString() })
-      })
-      .then(function() {
-        document.getElementById(ctaId).style.display = 'none';
-        document.getElementById(successId).style.display = 'block';
-      })
-      .catch(function() {
-        // Fallback: open mailto
-        window.location.href = 'mailto:hello@tubedissector.com?subject=Channel Analysis Request&body=Hi, I\'d like a channel analysis. My email: ' + email;
-      });
-    }
-  </script>
 
 </body>
 </html>
