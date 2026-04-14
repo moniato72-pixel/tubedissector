@@ -426,11 +426,16 @@
       <!-- CTA BOX -->
       <div class="cta-box" id="cta-main">
         <h3>Full channel dissection. <span>Delivered in 48h.</span></h3>
-        <a href="mailto:hello@tubedissector.com?subject=Channel%20Analysis%20Request&body=Hi%2C%20I%27d%20like%20a%20channel%20analysis.%0A%0AMy%20channel%3A%20%5Bpaste%20your%20channel%20URL%5D" class="email-form" style="text-decoration:none;">
-          <span style="flex:1;padding:14px 18px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--muted);font-size:1rem;">hello@tubedissector.com</span>
-          <button type="button" style="padding:14px 28px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;white-space:nowrap;">Get My Analysis &mdash; $99</button>
-        </a>
-        <p class="cta-note">Send us your channel URL. We'll reply within 24h. See <a href="#sample" style="color:var(--accent)">sample report</a> below.</p>
+        <form class="email-form" id="form-hero" onsubmit="handleSubmit(event, 'cta-main', 'success-hero')">
+          <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+          <input type="url" name="channel" placeholder="youtube.com/@yourchannel" style="flex:1;padding:14px 18px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:1rem;outline:none;" aria-label="Channel URL">
+          <button type="submit">Get My Analysis &mdash; $99</button>
+        </form>
+        <p class="cta-note">We'll review your channel and reply within 24h. See <a href="#sample" style="color:var(--accent)">sample report</a> below.</p>
+      </div>
+      <div class="cta-box" id="success-hero" style="display:none;border-color:var(--green);text-align:center;">
+        <h3 style="color:var(--green);margin-bottom:8px;">Request received.</h3>
+        <p style="color:var(--muted);font-size:0.9rem;">We'll review your channel and get back to you within 24 hours.</p>
       </div>
     </div>
   </section>
@@ -573,7 +578,7 @@
         </div>
       </div>
       <div style="margin-top:32px;">
-        <a href="mailto:hello@tubedissector.com?subject=Channel%20Analysis%20Request&body=Hi%2C%20I%27d%20like%20a%20channel%20analysis.%0A%0AMy%20channel%3A%20%5Bpaste%20your%20channel%20URL%5D" style="display:inline-block;padding:16px 36px;background:var(--accent);color:white;border-radius:8px;font-size:1rem;font-weight:700;text-decoration:none;">Get My Analysis &mdash; $99</a>
+        <a href="#cta-bottom" style="display:inline-block;padding:16px 36px;background:var(--accent);color:white;border-radius:8px;font-size:1rem;font-weight:700;text-decoration:none;">Get My Analysis &mdash; $99</a>
       </div>
     </div>
   </section>
@@ -584,13 +589,55 @@
       <h2>Every week without data is another week of guessing.</h2>
       <p>See what you've been missing.</p>
       <div class="cta-box" id="cta-bottom">
-        <a href="mailto:hello@tubedissector.com?subject=Channel%20Analysis%20Request&body=Hi%2C%20I%27d%20like%20a%20channel%20analysis.%0A%0AMy%20channel%3A%20%5Bpaste%20your%20channel%20URL%5D" class="email-form" style="text-decoration:none;">
-          <span style="flex:1;padding:14px 18px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--muted);font-size:1rem;">hello@tubedissector.com</span>
-          <button type="button" style="padding:14px 28px;background:var(--accent);color:white;border:none;border-radius:8px;font-size:1rem;font-weight:700;cursor:pointer;white-space:nowrap;">Get My Analysis &mdash; $99</button>
-        </a>
+        <form class="email-form" id="form-bottom" onsubmit="handleSubmit(event, 'cta-bottom', 'success-bottom')">
+          <input type="email" name="email" placeholder="your@email.com" required aria-label="Email address">
+          <input type="url" name="channel" placeholder="youtube.com/@yourchannel" style="flex:1;padding:14px 18px;border-radius:8px;border:1px solid var(--border);background:var(--bg);color:var(--text);font-size:1rem;outline:none;" aria-label="Channel URL">
+          <button type="submit">Get My Analysis &mdash; $99</button>
+        </form>
+      </div>
+      <div class="cta-box" id="success-bottom" style="display:none;border-color:var(--green);text-align:center;">
+        <h3 style="color:var(--green);margin-bottom:8px;">Request received.</h3>
+        <p style="color:var(--muted);font-size:0.9rem;">We'll review your channel and get back to you within 24 hours.</p>
       </div>
     </div>
   </section>
+
+  <script>
+    function handleSubmit(e, ctaId, successId) {
+      e.preventDefault();
+      var form = e.target;
+      var email = form.querySelector('input[name="email"]').value;
+      var channel = form.querySelector('input[name="channel"]').value;
+      var btn = form.querySelector('button');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+
+      fetch('https://ewbifgkfkhbciksyvvzl.supabase.co/rest/v1/leads', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'apikey': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3YmlmZ2tma2hiY2lrc3l2dnpsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3Mjg2NzMsImV4cCI6MjA5MDMwNDY3M30.26iUzcsZ0iataLe6Y0ea9uLEYPbcYJ0WGiuU2ffTtyM',
+          'Prefer': 'return=minimal'
+        },
+        body: JSON.stringify({ email: email, channel_url: channel })
+      })
+      .then(function(r) {
+        if (r.ok) {
+          document.getElementById(ctaId).style.display = 'none';
+          document.getElementById(successId).style.display = 'block';
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Get My Analysis \u2014 $99';
+          window.location.href = 'mailto:hello@tubedissector.com?subject=Channel Analysis Request&body=Email: ' + email + '%0AChannel: ' + channel;
+        }
+      })
+      .catch(function() {
+        btn.disabled = false;
+        btn.textContent = 'Get My Analysis \u2014 $99';
+        window.location.href = 'mailto:hello@tubedissector.com?subject=Channel Analysis Request&body=Email: ' + email + '%0AChannel: ' + channel;
+      });
+    }
+  </script>
 
   <!-- FOOTER -->
   <footer>
