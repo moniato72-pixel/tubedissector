@@ -1,2 +1,23 @@
 *.md
 !README.md
+
+# Internal outreach — contains real names and strategy
+email_*.txt
+dms_*.md
+emails_*.md
+dm_templates.md
+twitter_*.md
+youtube_comments_*.md
+
+# Demo production files — video goes to Loom, not GitHub
+demo-*.mp3
+demo-*.mp4
+demo-*.html
+demo-*.txt
+
+# Build artifacts
+og-image.html
+*.png.bak
+landing-*.png
+preview-*.png
+sample-preview*.png

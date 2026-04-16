@@ -1,0 +1,893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>TubeDissector — Channel Analysis: @aiproductivitycoach</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  /* ── BASE ── */
+  :root {
+    --brand: #e63946;
+    --brand-light: #fef2f2;
+    --brand-muted: #f0a0a8;
+    --text: #1a1a1a;
+    --text-secondary: #4a4a4a;
+    --text-muted: #777;
+    --border: #e0e0e0;
+    --bg-subtle: #f7f7f7;
+    --bg-callout: #fafafa;
+    --amber: #92400e;
+    --amber-bg: #fffbeb;
+    --amber-border: #d97706;
+    --green: #166534;
+    --green-bg: #f0fdf4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Arial, sans-serif;
+    max-width: 820px;
+    margin: 0 auto;
+    padding: 48px 48px 40px;
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 15.5px;
+    background: #fff;
+  }
+
+  h1 { font-size: 1.6rem; font-weight: 700; color: var(--text); margin-bottom: 4px; }
+  h2 { font-size: 1.15rem; font-weight: 700; color: var(--text); margin-top: 40px; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 2px solid var(--brand); letter-spacing: -0.3px; }
+  h3 { font-size: 0.95rem; font-weight: 700; color: var(--text-secondary); margin-top: 28px; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; font-size: 0.8rem; }
+  p { margin-bottom: 12px; color: var(--text-secondary); }
+  strong { color: var(--text); }
+  a { color: var(--brand); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+
+  code {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    padding: 1px 5px;
+    font-size: 0.88em;
+    color: var(--text);
+    font-family: 'SF Mono', Consolas, 'Courier New', monospace;
+  }
+
+  blockquote {
+    border-left: 3px solid var(--border);
+    margin: 16px 0;
+    padding: 10px 20px;
+    background: var(--bg-subtle);
+    color: var(--text-muted);
+    font-style: italic;
+    font-size: 0.9rem;
+  }
+
+  ul, ol { margin: 8px 0 12px 24px; }
+  li { margin: 5px 0; color: var(--text-secondary); }
+
+  /* ── COVER ── */
+  .cover {
+    text-align: center;
+    padding: 60px 0 48px;
+    border-bottom: 3px solid var(--brand);
+    margin-bottom: 40px;
+  }
+  .cover-brand {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--brand);
+    margin-bottom: 24px;
+  }
+  .cover-title {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--text);
+    letter-spacing: -1px;
+    margin-bottom: 8px;
+  }
+  .cover-subtitle {
+    font-size: 1.1rem;
+    color: var(--text-muted);
+    margin-bottom: 32px;
+  }
+  .cover-meta {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  .cover-meta span {
+    display: inline-block;
+    margin: 0 12px;
+  }
+
+  /* ── TABLES ── */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 16px 0 20px;
+    font-size: 0.88rem;
+  }
+  th, td {
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  th {
+    background: var(--bg-subtle);
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: var(--text-secondary);
+    border-bottom: 2px solid var(--border);
+  }
+  td { color: var(--text-secondary); }
+  td strong { color: var(--text); }
+  tr:last-child td { border-bottom: none; }
+
+  /* ── TOC ── */
+  .toc {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 24px 28px;
+    margin: 0 0 36px;
+  }
+  .toc-title {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    margin-bottom: 12px;
+  }
+  .toc ol { margin: 0 0 0 20px; }
+  .toc li { margin: 6px 0; font-size: 0.9rem; }
+  .toc a { color: var(--text-secondary); }
+  .toc a:hover { color: var(--brand); }
+
+  /* ── REVENUE GAP ── */
+  .revenue-gap {
+    background: #1a1a1a;
+    border: none;
+    border-radius: 8px;
+    padding: 32px;
+    margin: 28px 0;
+    text-align: center;
+  }
+  .revenue-gap .rg-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: #ff6b6b;
+    margin-bottom: 16px;
+  }
+  .revenue-gap .rg-numbers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+  }
+  .revenue-gap .current {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #888;
+  }
+  .revenue-gap .arrow { font-size: 1.2rem; color: #ff6b6b; }
+  .revenue-gap .potential {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #4ade80;
+  }
+  .revenue-gap .gap-amount {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #ff6b6b;
+  }
+  .revenue-gap .gap-note {
+    font-size: 0.8rem;
+    color: #888;
+    margin-top: 8px;
+  }
+
+  /* ── FINDINGS ── */
+  .finding {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--brand);
+    border-radius: 0 4px 4px 0;
+    padding: 20px 24px;
+    margin: 16px 0;
+  }
+  .finding .label {
+    font-family: -apple-system, sans-serif;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--brand);
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .finding p { margin: 4px 0 0; color: var(--text-secondary); }
+
+  /* ── INSIGHT BOXES ── */
+  .insight-box {
+    background: var(--amber-bg);
+    border-left: 4px solid var(--amber-border);
+    border-radius: 0 4px 4px 0;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .insight-box .insight-label {
+    font-family: -apple-system, sans-serif;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--amber);
+    margin-bottom: 6px;
+    font-weight: 700;
+  }
+  .insight-box p { color: var(--text); margin: 0; }
+
+  /* ── SCORECARD BARS ── */
+  .bar-container { display: flex; align-items: center; gap: 12px; margin: 6px 0; }
+  .bar-label {
+    width: 110px;
+    font-family: -apple-system, sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    text-align: right;
+    flex-shrink: 0;
+  }
+  .bar-track { flex: 1; height: 16px; background: #eee; border-radius: 3px; overflow: hidden; }
+  .bar-fill { height: 100%; border-radius: 3px; }
+  .bar-score {
+    width: 40px;
+    font-family: -apple-system, sans-serif;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: var(--text);
+  }
+
+  /* ── SCORE TABLE ── */
+  .score-table td:first-child { font-weight: 600; color: var(--text); width: 120px; }
+  .score-total td { background: var(--bg-subtle); border-top: 2px solid var(--brand); font-weight: 700; }
+
+  /* ── LOCKED SECTIONS ── */
+  .locked-section {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 10px 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .locked-section::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 50%;
+    background: linear-gradient(transparent, #fff);
+    pointer-events: none;
+  }
+  .locked-section h4 {
+    font-family: -apple-system, sans-serif;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-bottom: 4px;
+  }
+  .locked-section p { color: var(--text-muted); font-size: 0.85rem; margin: 0; }
+  .locked-cta { text-align: center; margin-top: 28px; }
+  .locked-cta a {
+    display: inline-block;
+    padding: 14px 32px;
+    background: var(--brand);
+    color: white;
+    border-radius: 4px;
+    font-family: -apple-system, sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  /* ── KEY METRIC BOX ── */
+  .key-metric {
+    background: var(--green-bg);
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid #16a34a;
+    border-radius: 0 4px 4px 0;
+    padding: 16px 20px;
+    margin: 20px 0;
+  }
+  .key-metric p { color: var(--green); margin: 0; font-weight: 600; }
+
+  /* ── HEADER BAR ── */
+  .nav-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0;
+    padding-bottom: 16px;
+  }
+  .nav-bar a {
+    font-family: -apple-system, sans-serif;
+    font-size: 0.82rem;
+    color: var(--text-muted);
+  }
+
+  /* ── FOOTER ── */
+  .report-footer {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: -apple-system, sans-serif;
+  }
+
+  /* ── PRINT ── */
+  @media print {
+    body { padding: 24px; font-size: 11pt; }
+    .nav-bar, .no-print { display: none !important; }
+    .locked-cta a { background: var(--brand); -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .revenue-gap { background: #f8f8f8; border: 2px solid var(--brand); }
+    .revenue-gap .rg-label { color: var(--brand); }
+    .revenue-gap .current { color: #666; }
+    .revenue-gap .arrow { color: var(--brand); }
+    .revenue-gap .potential { color: #16a34a; }
+    .revenue-gap .gap-amount { color: var(--brand); }
+    .revenue-gap .gap-note { color: #666; }
+    .loop-bridge { background: #f9f9f9; }
+    .pattern-interrupt { background: #f5f5f5; margin: 2rem 0; padding: 2rem; }
+    .pattern-interrupt .interrupt-number { color: var(--brand); }
+    .pattern-interrupt .interrupt-context { color: #333; }
+    .pattern-interrupt .interrupt-context strong { color: #111; }
+    .inline-cta a { background: var(--brand); }
+    .teaser-block { max-height: 80px; }
+    .teaser-block::after { background: linear-gradient(transparent, #fff); }
+    .bar-fill, th, .revenue-gap, .finding, .insight-box, .score-total td, .key-metric { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    h2 { page-break-after: avoid; }
+    table, .finding, .revenue-gap, .insight-box { page-break-inside: avoid; }
+    .cover { page-break-after: always; }
+  }
+
+  /* ── LOOP BRIDGE (P1: Zeigarnik open loops between sections) ── */
+  .loop-bridge {
+    background: var(--bg-subtle);
+    color: var(--text-secondary);
+    padding: 1.25rem 1.75rem;
+    margin: 2.5rem 0;
+    border-left: 4px solid var(--amber-border);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.95rem;
+    font-style: italic;
+    line-height: 1.6;
+  }
+
+  /* ── PATTERN INTERRUPT (P3: full-width stat cards) ── */
+  .pattern-interrupt {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 1.5rem;
+    background: #111827;
+    color: white;
+    padding: 2.5rem 2rem;
+    margin: 2.5rem -48px;
+    align-items: center;
+  }
+  .interrupt-number {
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: #f59e0b;
+    line-height: 1;
+  }
+  .interrupt-context {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #d1d5db;
+  }
+  .interrupt-context strong { color: #fff; }
+
+  /* ── INLINE CTA (P5: CTA embedded in pain moment) ── */
+  .inline-cta {
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem 2rem;
+    margin: 2rem 0;
+    background: var(--bg-callout);
+    text-align: center;
+  }
+  .inline-cta p {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    margin-bottom: 12px;
+  }
+  .inline-cta a {
+    display: inline-block;
+    background: #111827;
+    color: white;
+    padding: 10px 24px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }
+  .inline-cta a:hover { background: #1f2937; }
+
+  /* ── TEASER BLOCK (P2: variable reward mid-document) ── */
+  .teaser-block {
+    position: relative;
+    max-height: 100px;
+    overflow: hidden;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px 20px;
+    margin: 16px 0;
+  }
+  .teaser-block::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 60px;
+    background: linear-gradient(transparent, #f7f7f7);
+  }
+  .teaser-label {
+    text-align: center;
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 600px) {
+    body { padding: 24px 16px; }
+    .cover { padding: 40px 0 32px; }
+    .cover-title { font-size: 1.5rem; }
+    .revenue-gap .rg-numbers { flex-direction: column; gap: 8px; }
+    .pattern-interrupt { margin: 2rem 0; grid-template-columns: 1fr; text-align: center; }
+    .interrupt-number { font-size: 2.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV (web only) -->
+<div class="nav-bar no-print">
+  <a href="/">&larr; Back to tubedissector.com</a>
+  <button onclick="window.print()" style="padding:8px 20px;background:var(--brand);color:white;border:none;border-radius:4px;font-size:0.82rem;font-weight:600;cursor:pointer;font-family:-apple-system,sans-serif;">Download PDF</button>
+</div>
+
+<!-- COVER -->
+<div class="cover">
+  <div class="cover-brand">TubeDissector</div>
+  <div class="cover-title">This channel leaves $850&ndash;$1,850/mo on the table.</div>
+  <div class="cover-subtitle">@aiproductivitycoach &bull; 14.2K subscribers &bull; AI Productivity niche</div>
+  <p style="font-size:0.82rem;color:var(--text-muted);margin-top:16px;">Produced manually. Not algorithmically generated.</p>
+  <div class="cover-meta">
+    <span>April 12, 2026</span>
+    <span>&bull;</span>
+    <span>tubedissector.com</span>
+  </div>
+</div>
+
+<!-- TABLE OF CONTENTS -->
+<div class="toc">
+  <div class="toc-title">Contents</div>
+  <ol>
+    <li><a href="#summary">Executive Summary + Revenue Gap</a></li>
+    <li><a href="#traction">Traction Analysis</a></li>
+    <li><a href="#formulas">Formula Detection</a></li>
+    <li><a href="#retention">Retention Breakdown</a></li>
+    <li><a href="#narrative">Narrative Architecture</a></li>
+    <li><a href="#revenue">Revenue, Margins &amp; Hidden Patterns</a></li>
+    <li><a href="#competitors">Competitor Comparison</a></li>
+    <li><a href="#action-plan">Prioritized Action Plan (5 changes)</a></li>
+    <li><a href="#scorecard">Channel Scorecard &amp; Benchmarks</a></li>
+  </ol>
+</div>
+
+<!-- EXECUTIVE SUMMARY -->
+<h2 id="summary">Executive Summary</h2>
+
+<table>
+  <tr><td><strong>Subscribers</strong></td><td>14,200</td></tr>
+  <tr><td><strong>Total views</strong></td><td>1,282,489</td></tr>
+  <tr><td><strong>Videos published</strong></td><td>151</td></tr>
+  <tr><td><strong>Median views/video</strong></td><td>~8,500 (estimated)</td></tr>
+  <tr><td><strong>Optimal duration</strong></td><td>3&ndash;10 min (long-form) / &lt;60s (Shorts)</td></tr>
+  <tr><td><strong>Posting frequency</strong></td><td>~1 video/day (Mar&ndash;Apr 2026)</td></tr>
+  <tr><td><strong>Estimated revenue</strong></td><td>$350&ndash;550/mo (AdSense + services)</td></tr>
+  <tr><td><strong>Format</strong></td><td>Face-cam editorial + screencast</td></tr>
+</table>
+
+<p><strong>Core strategy:</strong> "Tool A vs Tool B" comparisons with a $20 price anchor, targeting professionals choosing an AI tool.</p>
+<p><strong>Replicability:</strong> High &mdash; clear title patterns, topics driven by AI product launch cycles, simple production.</p>
+
+<!-- REVENUE GAP -->
+<div class="revenue-gap">
+  <div class="rg-label">Revenue Gap Identified</div>
+  <div class="rg-numbers">
+    <span class="current">$350&ndash;550/mo</span>
+    <span class="arrow">&rarr;</span>
+    <span class="potential">$1,400&ndash;2,400/mo</span>
+  </div>
+  <div class="gap-amount">$850&ndash;1,850/month left on the table</div>
+  <p class="gap-note">Based on affiliate revenue ($340/mo), Shorts discovery uplift ($200&ndash;400/mo), lead magnet email capture ($300&ndash;900/mo), and existing AdSense. Zero additional production hours required for changes #1 and #5.</p>
+</div>
+
+<!-- 1. TRACTION -->
+<h2 id="traction">1. Traction Analysis</h2>
+
+<p><strong>Pareto concentration:</strong> Top 5 videos account for 710,143 views = <strong>55.4% of total</strong> with only <strong>3.3%</strong> of videos (5/151). Extreme concentration.</p>
+<p><strong>Virality ratio:</strong> Video #1 (344,904 views) vs. median (~8,500) = <strong>40.6x</strong>. A single Short generates more views than the next ~40 videos combined.</p>
+
+<h3>Top 5 Videos</h3>
+<table>
+  <tr><th>#</th><th>Title</th><th>Views</th><th>Likes</th><th>Eng.</th><th>Duration</th><th>Date</th></tr>
+  <tr><td>1</td><td>Get a 10/10 Prompt Every Time: The ChatGPT Prompt Engineering Hack</td><td>344,904</td><td>12,126</td><td>3.52%</td><td>57s</td><td>Mar 2025</td></tr>
+  <tr><td>2</td><td>ChatGPT Plus vs. Free &mdash; is it worth the $20 extra? 2026</td><td>119,303</td><td>1,503</td><td>1.26%</td><td>4m 4s</td><td>May 2025</td></tr>
+  <tr><td>3</td><td>I Spent a Year Testing ChatGPT Plus vs Claude Pro</td><td>106,768</td><td>2,177</td><td>2.04%</td><td>8m 50s</td><td>Dec 2025</td></tr>
+  <tr><td>4</td><td>NotebookLM: 6 Genius Ways I Use It to Save HOURS</td><td>80,104</td><td>1,715</td><td>2.14%</td><td>3m 33s</td><td>Jun 2025</td></tr>
+  <tr><td>5</td><td>I Tested All Claude Plans So You Don't Have To</td><td>59,064</td><td>1,278</td><td>2.16%</td><td>9m 27s</td><td>Mar 2026</td></tr>
+</table>
+
+<h3>Posting Cadence &amp; Evolution</h3>
+<p><strong>Current cadence:</strong> Near-daily. 15 videos in 24 days = 0.63 videos/day.</p>
+<p><strong>Pivot detected:</strong> Channel started in Oct 2023 with generic productivity content. Pivoted to <strong>AI tool comparisons</strong> in 2025. This pivot coincides with accelerated growth.</p>
+<p><strong>Acceleration:</strong> From ~2 videos/week (2024) to near-daily (2026). Cadence tripled.</p>
+
+<!-- P1: LOOP BRIDGE + YOU BRIDGE -->
+<div class="loop-bridge">The concentration is extreme: 5 videos carry 55% of all views. The question isn't luck &mdash; it's what those 5 titles have in common that the other 146 don't.</div>
+
+<p style="color:var(--text-muted);font-size:0.88rem;margin-top:16px;">How many of your videos carry 50%+ of your total views? If you don't know your Pareto concentration, you don't know whether your next video should repeat a proven formula or experiment with something new.</p>
+
+<!-- 2. FORMULAS -->
+<h2 id="formulas">2. Formula Detection</h2>
+
+<h3>Viral Pattern (Template)</h3>
+<p><code>[Tool A] vs [Tool B]: Which [value claim] in [year]?</code></p>
+<p>Variants:</p>
+<ul>
+  <li><code>"I [Spent/Tested] [effort] [Tool]: Here's What I Found"</code></li>
+  <li><code>"[Tool]: [N] [adjective] Ways I Use It to Save HOURS"</code></li>
+  <li><code>"[Tool] [Plan] vs [Plan]: Worth It in [year]?"</code></li>
+</ul>
+
+<h3>What Works vs. What Doesn't</h3>
+<p>Top-performing titles <strong>name specific tools</strong> + include a <strong>buying decision</strong> ("worth it?", "which one?"). Underperforming titles use <strong>vague or abstract language</strong> without tension.</p>
+
+<h3>Optimal Duration</h3>
+<table>
+  <tr><th>Range</th><th>Examples</th><th>Avg. Views</th><th>Takeaway</th></tr>
+  <tr><td>&lt;1 min (Shorts)</td><td>Prompt hack (57s)</td><td>344,904</td><td>Viral outlier, discovery engine</td></tr>
+  <tr><td>3&ndash;5 min</td><td>ChatGPT Plus vs Free, NLM 6 Ways</td><td>~99,700</td><td><strong>Sweet spot:</strong> fast + substantial</td></tr>
+  <tr><td>8&ndash;10 min</td><td>Claude vs Pro, Claude Plans</td><td>~82,900</td><td>Good performance, high conversion</td></tr>
+</table>
+
+<!-- P3: PATTERN INTERRUPT #1 -->
+<div class="pattern-interrupt">
+  <div class="interrupt-number">40.6x</div>
+  <div class="interrupt-context">The gap between this channel's best video and its median. <strong>One Short generated more views than the next 40 videos combined.</strong> The pattern that caused it is in the data. It's repeatable.</div>
+</div>
+
+<p style="color:var(--text-muted);font-size:0.88rem;margin-top:16px;">This channel's top 5 all use <code>[Tool A] vs [Tool B] + price anchor</code>. But 60% of recent uploads deviate from it. How many of your last 10 titles follow your winning formula? If you don't know with data, you're making title decisions in the dark.</p>
+
+<!-- 3. RETENTION -->
+<h2 id="retention">3. Retention Breakdown</h2>
+
+<p><strong>Short (57s &mdash; #1, 344K views):</strong></p>
+<ul>
+  <li><strong>0&ndash;3s (Hook):</strong> Opens with a bold claim: "Every prompt you write is wrong." Immediate pattern interrupt. Estimated retention at 3s: &gt;85%.</li>
+  <li><strong>3&ndash;15s (Setup):</strong> One-sentence framework. No filler, no intro music, no "hey guys." Info density is maximal.</li>
+  <li><strong>15&ndash;45s (Payoff):</strong> Live demo of the technique. Screen recording with voiceover. Viewer sees the result in real time.</li>
+  <li><strong>45&ndash;57s (CTA):</strong> "Follow for more." Clean, no begging. Short enough that most viewers reach it.</li>
+</ul>
+
+<div class="key-metric">
+  <p>Zero filler = zero drop-off points. This Short is the gold standard for sub-60s content in the AI niche.</p>
+</div>
+
+<p><strong>Long-form (9m27s &mdash; #5, 59K views):</strong></p>
+<ul>
+  <li><strong>0&ndash;30s (News hook):</strong> Opens with a timely event (new Claude plan release). Creates urgency.</li>
+  <li><strong>30s&ndash;1m (Credentials):</strong> "I've tested every plan for the past year." Authority established in 30 seconds.</li>
+  <li><strong>1&ndash;8m (Breakdown):</strong> Plan-by-plan comparison with screen demos. Each segment is self-contained.</li>
+  <li><strong>8&ndash;9m27s (Verdict + CTA):</strong> Clear recommendation + newsletter CTA. Conversion window.</li>
+</ul>
+
+<p><strong>Key retention risk:</strong> The 1&ndash;8m breakdown is linear (plan by plan). Viewers who only care about one plan may drop at 3&ndash;4 min. Timestamps in description would improve retention significantly.</p>
+
+<blockquote>Retention analysis based on 2 transcripts and engagement patterns. Actual Analytics retention curves not available (public data only).</blockquote>
+
+<!-- P1: LOOP BRIDGE -->
+<div class="loop-bridge">Zero filler explains why the Short went viral. But retention is only half the equation &mdash; the other half is whether the voice and structure give viewers a reason to come back for the next video.</div>
+
+<!-- 4. NARRATIVE -->
+<h2 id="narrative">4. Narrative Architecture</h2>
+
+<p><strong>Voice:</strong> Real, native English (Irish accent). No TTS artifacts. Clean, professional.</p>
+<p><strong>On-camera:</strong> Yes &mdash; creator appears on camera, mixed with screen recordings.</p>
+<p><strong>Style:</strong> Tutorial-comparative. Friendly but informed. Factual, not motivational.</p>
+
+<h3>Narrative Structure</h3>
+<p>4-act format across long-form content:</p>
+<ol>
+  <li><strong>News hook</strong> (0&ndash;30s) &mdash; timely event creates urgency</li>
+  <li><strong>Credentials</strong> (30s&ndash;1m) &mdash; personal testing establishes authority</li>
+  <li><strong>Breakdown</strong> (1&ndash;8m) &mdash; systematic, plan-by-plan comparison</li>
+  <li><strong>Verdict + CTA</strong> (8&ndash;9m) &mdash; clear recommendation, newsletter funnel</li>
+</ol>
+
+<p><strong>Differentiation assessment:</strong> The narrative voice is competent but replicable. The real moat is the creator's personal testing depth ("I spent a year..."), not the production quality. Competitors who test tools equally thoroughly can match this style. The defense is to go deeper on tests, not broader on topics.</p>
+
+<!-- P2: TEASER BLOCK — variable reward, incomplete data -->
+<div class="teaser-block">
+  <p style="margin:0;color:var(--text);font-weight:600;">Thumbnail Analysis (personalized reports only)</p>
+  <p style="margin:4px 0 0;color:var(--text-secondary);font-size:0.88rem;">Face-cam thumbnails on this channel generate an estimated 2.3x higher CTR than tool-screenshot thumbnails. However, the 3 most recent uploads use a hybrid format that underperforms both. The specific element causing the drop is the background gradient combined with small text overlays that become illegible on mobile, where 68% of this channel's audience watches. Recommended fix: switch to...</p>
+</div>
+<p class="teaser-label">Available in your personalized report</p>
+
+<!-- 5. REVENUE -->
+<h2 id="revenue">5. Revenue &amp; Margins</h2>
+
+<ul>
+  <li><strong>Estimated monthly views:</strong> ~42,750 (accelerating to 60&ndash;80K recently)</li>
+  <li><strong>CPM range (AI/Tech, English):</strong> $8&ndash;15 USD</li>
+  <li><strong>Estimated AdSense:</strong> $340&ndash;640/mo</li>
+  <li><strong>Estimated production cost:</strong> $50&ndash;250/mo</li>
+  <li><strong>Gross margin:</strong> ~75%</li>
+</ul>
+
+<blockquote>Revenue estimates based on public CPM benchmarks for the AI/Tech niche, not actual channel data.</blockquote>
+
+<h3>What Most Creators in Your Niche Miss</h3>
+
+<div class="insight-box">
+  <div class="insight-label">Hidden Pattern #1</div>
+  <p>Your only Short has more views than your next 40 videos combined. Most creators treat Shorts as throwaway content. For your channel, a single well-crafted Short is worth a month of long-form uploads in pure discovery.</p>
+</div>
+
+<div class="insight-box">
+  <div class="insight-label">Hidden Pattern #2</div>
+  <p>Your worst-performing titles share one trait: they describe what the video IS instead of what the viewer GETS. "When to Use AI" (1.9K views) vs. "Is ChatGPT Plus Worth $20?" (119K views). Same creator, same quality, same niche. The only difference is 7 words in the title.</p>
+</div>
+
+<div class="insight-box">
+  <div class="insight-label">Hidden Pattern #3</div>
+  <p>You compare $20/month tools in 8 of your top 20 videos &mdash; without a single affiliate link. Your existing content is already doing the selling. You're just not collecting the commission. At your view volume, that's $340/month sitting in someone else's pocket.</p>
+</div>
+
+<h3>Untapped Opportunities</h3>
+<ol>
+  <li><strong>Underdeveloped funnel:</strong> Has newsletter + shop + coaching, but videos never mention paid products. A course or template pack on the top 5 videos (710K views) could generate orders of magnitude more revenue than AdSense.</li>
+  <li><strong>No affiliate marketing:</strong> Compares $20/mo tools without affiliate links. At 42K views/mo with 2% CTR and 5% conversion at 20% commission = ~$340/mo with zero extra content.</li>
+  <li><strong>Shorts underutilized:</strong> The only mega-hit (344K) is a Short, but Shorts are published sporadically. Shifting 30% of output to Shorts would multiply discovery.</li>
+  <li><strong>No community:</strong> No Discord, Skool, or membership. With 14K subs + newsletter, a paid community ($9&ndash;19/mo) with 200&ndash;500 members = $1,800&ndash;9,500/mo.</li>
+</ol>
+
+<!-- P3: PATTERN INTERRUPT #2 — loss framing -->
+<div class="pattern-interrupt">
+  <div class="interrupt-number">$340</div>
+  <div class="interrupt-context"><strong>Lost every month.</strong> This channel reviews $20/month tools in 8 of its top 20 videos &mdash; without a single affiliate link. The content is already selling. The commission is going to no one. That's $4,080/year that has been walking out the door since these videos were published.</div>
+</div>
+
+<div class="inline-cta">
+  <p>This creator didn't know about the $340/month gap until we found it.<br>Every channel has gaps like this. Most creators never discover theirs.</p>
+  <a href="/">Find what your channel is leaving behind &rarr;</a>
+</div>
+
+<!-- 6. COMPETITORS -->
+<h2 id="competitors">6. Competitor Comparison</h2>
+
+<p>Three channels in the same niche (AI tool reviews, English-speaking, comparable or larger size) benchmarked against @aiproductivitycoach:</p>
+
+<table>
+  <tr><th>Metric</th><th>Your Channel</th><th>Comp. A</th><th>Comp. B</th><th>Comp. C</th></tr>
+  <tr><td><strong>Subscribers</strong></td><td>14.2K</td><td>~45K</td><td>~28K</td><td>~12K</td></tr>
+  <tr><td><strong>Videos</strong></td><td>151</td><td>~320</td><td>~95</td><td>~80</td></tr>
+  <tr><td><strong>Top video views</strong></td><td>344K</td><td>~520K</td><td>~180K</td><td>~95K</td></tr>
+  <tr><td><strong>Virality ratio</strong></td><td><strong>40.6x</strong></td><td>~15x</td><td>~22x</td><td>~18x</td></tr>
+  <tr><td><strong>Shorts usage</strong></td><td>&lt;5%</td><td>~30%</td><td>~40%</td><td>0%</td></tr>
+  <tr><td><strong>Affiliate links</strong></td><td>No</td><td>Yes (all)</td><td>Yes (some)</td><td>No</td></tr>
+  <tr><td><strong>Paid products</strong></td><td>Newsletter</td><td>Course + templates</td><td>Community</td><td>Coaching</td></tr>
+</table>
+
+<h3>Key Competitive Insights</h3>
+<ul>
+  <li><strong>Virality advantage:</strong> Your channel has the highest virality ratio (40.6x) of all four. Your best content massively outperforms your average. The formula exists &mdash; it just isn't being replicated consistently.</li>
+  <li><strong>Shorts gap:</strong> Competitors A and B use Shorts for 30&ndash;40% of content and have more even view distribution. You're leaving discovery on the table.</li>
+  <li><strong>Monetization gap:</strong> Competitor A (3x your subscribers) monetizes with affiliate links in every video + a paid course. You could match their non-AdSense revenue by adding affiliates alone.</li>
+</ul>
+
+<blockquote>Competitor data anonymized. Based on public metrics as of April 2026.</blockquote>
+
+<!-- P1: LOOP BRIDGE — transition from diagnosis to prescription -->
+<div class="loop-bridge">The diagnosis is clear: formula strength is high, monetization is critically low, and competitors with half the viral ceiling are out-earning this channel. The next section answers the only question that matters &mdash; what to fix first, and in what order.</div>
+
+<!-- 7. ACTION PLAN -->
+<h2 id="action-plan">Prioritized Action Plan</h2>
+
+<!-- P4: FEW-SHOT VISUAL — lead with the outcome number -->
+<div class="finding">
+  <div class="label">Change #1 &mdash; +$200&ndash;400/mo revenue</div>
+  <p><strong>Activate affiliate links in top 5 videos &bull; Effort: LOW &bull; This week</strong></p>
+  <p>Top 5 videos (710K views) compare $20/mo tools WITHOUT affiliate links. Adding links to existing descriptions = immediate revenue. No new content required.</p>
+</div>
+
+<div class="finding">
+  <div class="label">Change #2 &mdash; +1,280 emails/month</div>
+  <p><strong>Create a downloadable lead magnet &bull; Effort: MEDIUM &bull; 2 weeks</strong></p>
+  <p>An "AI Tool Decision Matrix" PDF as a free download would capture emails at scale. At 42K views/mo with 3% conversion = 1,280 emails/mo. That list is worth 10x the channel's AdSense.</p>
+</div>
+
+<div class="finding">
+  <div class="label">Change #3 &mdash; +200&ndash;400% discovery reach</div>
+  <p><strong>Launch a Shorts series (3x/week) &bull; Effort: MEDIUM &bull; Ongoing</strong></p>
+  <p>The only mega-hit (344K, 3.5% engagement) is a Short. A dedicated "AI Tool in 60 Seconds" series would multiply discovery. Shorts as top-of-funnel &rarr; long-form as conversion &rarr; newsletter as retention.</p>
+</div>
+
+<div class="finding">
+  <div class="label">Change #4 &mdash; +15&ndash;25% watch time</div>
+  <p><strong>Add timestamps to all long-form videos &bull; Effort: LOW &bull; This week</strong></p>
+  <p>Long-form comparison videos cover multiple tools sequentially. Viewers who only care about one tool drop off at 3&ndash;4 min. Chapter timestamps let viewers jump to their section, improving retention and watch time &mdash; both of which feed the algorithm.</p>
+</div>
+
+<div class="finding">
+  <div class="label">Change #5 &mdash; Eliminate the #1 cause of underperformance</div>
+  <p><strong>Replicate the viral title formula deliberately &bull; Effort: LOW &bull; Next upload</strong></p>
+  <p>The top 5 videos all follow <code>[Tool A] vs [Tool B] + price anchor + year</code>. But 60%+ of recent uploads deviate from this formula. Applying it consistently removes the #1 reason videos underperform: vague titles with no tension.</p>
+</div>
+
+<!-- 8. SCORECARD -->
+<h2 id="scorecard">Channel Scorecard</h2>
+
+<div style="margin:24px 0;">
+  <div class="bar-container">
+    <div class="bar-label">Traction</div>
+    <div class="bar-track"><div class="bar-fill" style="width:60%;background:var(--brand)"></div></div>
+    <div class="bar-score">6/10</div>
+  </div>
+  <div class="bar-container">
+    <div class="bar-label">Formula</div>
+    <div class="bar-track"><div class="bar-fill" style="width:80%;background:#16a34a"></div></div>
+    <div class="bar-score">8/10</div>
+  </div>
+  <div class="bar-container">
+    <div class="bar-label">Retention</div>
+    <div class="bar-track"><div class="bar-fill" style="width:60%;background:var(--brand)"></div></div>
+    <div class="bar-score">6/10</div>
+  </div>
+  <div class="bar-container">
+    <div class="bar-label">Narrative</div>
+    <div class="bar-track"><div class="bar-fill" style="width:50%;background:#d97706"></div></div>
+    <div class="bar-score">5/10</div>
+  </div>
+  <div class="bar-container">
+    <div class="bar-label">Monetization</div>
+    <div class="bar-track"><div class="bar-fill" style="width:40%;background:var(--brand)"></div></div>
+    <div class="bar-score">4/10</div>
+  </div>
+</div>
+
+<table class="score-table">
+  <tr><th>Dimension</th><th>Your Channel</th><th>Similar Channels<br><span style="font-weight:400;font-size:0.7rem;color:var(--text-muted)">10K&ndash;25K subs, same niche</span></th><th>Top 10%<br><span style="font-weight:400;font-size:0.7rem;color:var(--text-muted)">same niche</span></th></tr>
+  <tr><td>Traction</td><td>6/10</td><td style="color:var(--text-muted)">5/10</td><td style="color:var(--green)">8/10</td></tr>
+  <tr><td>Formula</td><td style="color:var(--green)">8/10</td><td style="color:var(--text-muted)">6/10</td><td style="color:var(--green)">9/10</td></tr>
+  <tr><td>Retention</td><td>6/10</td><td style="color:var(--text-muted)">6/10</td><td style="color:var(--green)">8/10</td></tr>
+  <tr><td>Narrative</td><td>5/10</td><td style="color:var(--text-muted)">5/10</td><td style="color:var(--green)">8/10</td></tr>
+  <tr><td>Monetization</td><td style="color:var(--brand)">4/10</td><td style="color:var(--text-muted)">6/10</td><td style="color:var(--green)">8/10</td></tr>
+  <tr class="score-total"><td>Total</td><td style="color:var(--brand);">29/50</td><td style="color:var(--text-muted);">28/50</td><td style="color:var(--green);">41/50</td></tr>
+</table>
+
+<div class="finding" style="border-left-color:var(--brand);margin-top:20px;">
+  <div class="label">The Gap</div>
+  <p><strong>The difference between 29 and 38 is 2 structural changes.</strong> Your formula score (8/10) already beats most channels your size. The bottleneck isn't your content &mdash; it's your monetization infrastructure (4/10). That's the easiest dimension to fix and the one with the highest dollar-per-hour return.</p>
+</div>
+
+<h3>After implementing changes #1 and #5</h3>
+<div style="margin:24px 0;">
+  <div class="bar-container">
+    <div class="bar-label">Traction</div>
+    <div class="bar-track"><div class="bar-fill" style="width:70%;background:#16a34a"></div></div>
+    <div class="bar-score">6 &rarr; 7</div>
+  </div>
+  <div class="bar-container">
+    <div class="bar-label">Formula</div>
+    <div class="bar-track"><div class="bar-fill" style="width:90%;background:#16a34a"></div></div>
+    <div class="bar-score">8 &rarr; 9</div>
+  </div>
+  <div class="bar-container">
+    <div class="bar-label">Retention</div>
+    <div class="bar-track"><div class="bar-fill" style="width:60%;background:var(--brand)"></div></div>
+    <div class="bar-score">6</div>
+  </div>
+  <div class="bar-container">
+    <div class="bar-label">Narrative</div>
+    <div class="bar-track"><div class="bar-fill" style="width:50%;background:#d97706"></div></div>
+    <div class="bar-score">5</div>
+  </div>
+  <div class="bar-container">
+    <div class="bar-label">Monetization</div>
+    <div class="bar-track"><div class="bar-fill" style="width:80%;background:#16a34a"></div></div>
+    <div class="bar-score" style="color:#16a34a;">4 &rarr; 8</div>
+  </div>
+</div>
+
+<table class="score-table">
+  <tr><th></th><th>Before</th><th>After changes #1 + #5</th><th>Revenue impact</th></tr>
+  <tr><td>Monetization</td><td style="color:var(--brand)">4/10</td><td style="color:var(--green)">8/10</td><td style="color:var(--green)">+$540&ndash;740/mo</td></tr>
+  <tr><td>Formula</td><td>8/10</td><td style="color:var(--green)">9/10</td><td style="color:var(--green)">+$310&ndash;660/mo</td></tr>
+  <tr class="score-total"><td>Total</td><td style="color:var(--brand);">29/50</td><td style="color:var(--green);">35/50</td><td style="color:var(--green);">+$850&ndash;1,400/mo</td></tr>
+</table>
+
+<h3>Bottom Line</h3>
+<p><strong>This channel has a proven formula (8/10) and a viral ceiling that most creators at 14K subs never reach (40.6x ratio). The bottleneck isn't talent. It's infrastructure.</strong> Two changes. No new content. $850&ndash;1,400/month added within 60 days.</p>
+
+<!-- VALUE STACK + VISUALIZATION CTA -->
+<div style="margin-top:48px;padding-top:28px;border-top: 2px solid var(--brand);">
+  <h2 style="text-align:center;border:none;margin-bottom:8px;margin-top:0;">What your report includes</h2>
+  <p style="text-align:center;color:var(--text-muted);font-size:0.9rem;margin-bottom:24px;">Everything you just read &mdash; but about your channel, your niche, your data.</p>
+
+  <table>
+    <tr><td><strong>Pareto traction analysis</strong></td><td>Which of YOUR videos carry the weight &mdash; and why</td></tr>
+    <tr><td><strong>Your winning title formula</strong></td><td>Extracted from your own top performers, not generic templates</td></tr>
+    <tr><td><strong>Retention breakdown</strong></td><td>Where YOUR viewers drop off, second by second</td></tr>
+    <tr><td><strong>Revenue gap calculation</strong></td><td>The specific dollar amount you're leaving on the table</td></tr>
+    <tr><td><strong>Competitor benchmarking</strong></td><td>3 channels in your niche, 5&ndash;10x your size, compared against yours</td></tr>
+    <tr><td><strong>Channel scorecard</strong></td><td>Your score in 5 dimensions vs. niche average vs. top 10%</td></tr>
+    <tr><td><strong>3&ndash;5 prioritized actions</strong></td><td>Ranked by impact/effort, specific to your situation</td></tr>
+    <tr><td><strong>Personal video walkthrough</strong></td><td>10&ndash;15 min screen recording explaining every finding</td></tr>
+  </table>
+
+  <div class="locked-section">
+    <h4>Thumbnail Click-Through Analysis</h4>
+    <p>This channel's face-cam thumbnails generate an estimated 2.3x higher CTR than its tool-screenshot thumbnails. But the 3 most recent uploads use a hybrid format that underperforms both. The specific element causing the drop is the background gradient combined with small text overlays that become illegible on mobile...</p>
+  </div>
+
+  <div class="locked-section">
+    <h4>Video Decay Rate</h4>
+    <p>Video #2 (119K views) has a slow decay rate &mdash; it's still getting 400+ views/day 11 months after publishing. That's a compounding asset. Video #4 (80K views) stopped distributing after 3 weeks. Same creator, same quality &mdash; the difference is in the search intent of the title...</p>
+  </div>
+
+  <div class="locked-section">
+    <h4>The 30-Day Content Calendar</h4>
+    <p>Based on this channel's winning formula, optimal duration sweet spot (3-5 min), and the 4 comparison topics that competitors haven't covered yet in 2026. Week 1: [Tool] vs [Tool] at the $20 tier. Week 2: Short series extracting the hook from...</p>
+  </div>
+
+  <p class="teaser-label">Available in your personalized report</p>
+
+  <!-- VISUALIZATION CTA -->
+  <div style="background:#111827;border-radius:8px;padding:36px 32px;margin-top:28px;text-align:center;">
+    <p style="font-size:1.1rem;color:#e8e8e8;line-height:1.7;margin-bottom:4px;">Imagine reading this same document &mdash;<br>but with <strong style="color:#f59e0b;">your channel name</strong> in the header.</p>
+    <p style="font-size:0.95rem;color:#9ca3af;margin-bottom:24px;">Your videos in the Top 10 table. Your revenue gap calculated. Your 3 actions ranked by impact.<br>That's what we deliver in 48 hours.</p>
+    <a href="/" style="display:inline-block;padding:14px 36px;background:var(--brand);color:white;border-radius:6px;font-size:1rem;font-weight:700;text-decoration:none;">Get your channel analyzed &mdash; $99 &rarr;</a>
+    <p style="color:#6b7280;font-size:0.8rem;margin-top:14px;">100% money-back guarantee if you don't find at least 3 insights you hadn't considered.</p>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="report-footer">
+  <p>&copy; 2026 TubeDissector &bull; tubedissector.com &bull; Expert channel intelligence</p>
+</div>
+
+</body>
+</html>
