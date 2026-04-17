@@ -19,5 +19,10 @@ demo-*.txt
 og-image.html
 *.png.bak
 landing-*.png
+landing_*.png
 preview-*.png
 sample-preview*.png
+
+# Dev utilities
+_*.mjs
+node_modules/
