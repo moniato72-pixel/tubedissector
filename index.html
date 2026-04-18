@@ -809,20 +809,22 @@
       <p class="sub">YouTube tools charge $108&ndash;$948/year for dashboards you have to interpret yourself.<br>This is a done-for-you analysis with specific changes ranked by impact. Once.</p>
       <p class="sub" style="margin-top:-20px;margin-bottom:36px;"><strong style="color:var(--text);">Guarantee:</strong> If your report doesn't contain at least 3 specific, actionable insights you hadn't considered before &mdash; full refund. No questions.</p>
       <div class="price-cards">
-        <div class="price-card">
-          <div class="tier">Growth</div>
+        <div class="price-card" style="position:relative;opacity:0.92;">
+          <div style="position:absolute;top:-10px;left:50%;transform:translateX(-50%);font-size:0.65rem;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;background:var(--bg);border:1px solid var(--muted);color:var(--muted);padding:4px 12px;border-radius:100px;white-space:nowrap;">Waitlist &middot; Q3 2026</div>
+          <div class="tier">Growth Tracking</div>
           <div class="amount">$249</div>
           <div class="period">per month</div>
           <p style="font-size:0.8rem;color:var(--accent);margin-bottom:12px;font-weight:600;">Everything in One-time, plus:</p>
           <ul>
-            <li>Monthly re-analysis of your channel</li>
+            <li>Quarterly re-analysis of your channel</li>
             <li>Before/after tracking (measure real impact)</li>
-            <li>3 competitors monitored every month</li>
-            <li>Next-month content plan with priorities</li>
+            <li>3 competitors monitored every quarter</li>
+            <li>Next-quarter content plan with priorities</li>
             <li>Direct email access for questions</li>
             <li>Cancel anytime</li>
           </ul>
-          <a href="#cta-bottom" onclick="selectPlan('growth')" style="display:inline-block;margin-top:16px;padding:12px 24px;border:1px solid var(--accent);color:var(--accent);border-radius:8px;font-size:0.9rem;font-weight:700;text-decoration:none;width:100%;text-align:center;box-sizing:border-box;">Get Started &mdash; $249/mo</a>
+          <p style="font-size:0.75rem;color:var(--muted);margin-top:14px;line-height:1.5;">Activating after we've served our first 5 one-time clients. Waitlist members get 30% off the launch price.</p>
+          <a href="#cta-bottom" onclick="selectPlan('growth-waitlist')" style="display:inline-block;margin-top:16px;padding:12px 24px;border:1px solid var(--muted);color:var(--muted);border-radius:8px;font-size:0.9rem;font-weight:700;text-decoration:none;width:100%;text-align:center;box-sizing:border-box;">Join Waitlist</a>
         </div>
         <div class="price-card featured">
           <div class="tier">One-time</div>
@@ -973,9 +975,9 @@
       var label = document.getElementById('plan-label');
       var btn = document.getElementById('btn-bottom');
       if (input) input.value = plan;
-      if (plan === 'growth') {
-        if (label) { label.textContent = 'Growth Plan — $249/mo'; label.style.display = 'block'; }
-        if (btn) btn.textContent = 'Request Growth Plan — $249/mo';
+      if (plan === 'growth-waitlist') {
+        if (label) { label.textContent = 'Growth Tracking — Waitlist (Q3 2026)'; label.style.display = 'block'; }
+        if (btn) btn.textContent = 'Join Growth Waitlist';
       } else {
         if (label) { label.textContent = 'One-Time Analysis — $99'; label.style.display = 'block'; }
         if (btn) btn.textContent = 'Request Your Analysis — $99';
@@ -1004,8 +1006,15 @@
       })
       .then(function(r) {
         if (r.ok) {
+          var successBox = document.getElementById(successId);
+          if (planValue === 'growth-waitlist' && successBox) {
+            var h = successBox.querySelector('h3');
+            var p = successBox.querySelector('p');
+            if (h) h.textContent = "You're on the list.";
+            if (p) p.textContent = "We'll email you when Growth Tracking launches with your early-access 30% discount.";
+          }
           document.getElementById(ctaId).style.display = 'none';
-          document.getElementById(successId).style.display = 'block';
+          if (successBox) successBox.style.display = 'block';
         } else {
           btn.disabled = false;
           btn.textContent = 'Request Your Analysis';
